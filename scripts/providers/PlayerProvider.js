@@ -17,7 +17,7 @@ export const savePlayer = (player) => {
 
 }
 
-export const getJournal = () => {
+export const getPlayer = () => {
   return fetch("http://localhost:8088/players")
     .then(response => response.json())
     .then(parsedPlayer => {
