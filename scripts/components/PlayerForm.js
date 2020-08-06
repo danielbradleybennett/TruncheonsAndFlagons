@@ -9,40 +9,29 @@ const eventHub = document.querySelector(".container")
 
 export const PlayerFormComponent = () => {
 
-  eventHub.addEventListener("click", clickEvent => {
+  const addPlayerListener = () => {
+    eventHub.addEventListener("click", (evt) => {
+      if (evt.target.id === "addPlayerBtn") {
 
-    if (clickEvent.target.id === "savePlayer") {
-      const hiddentInputValue = document.querySelector("#player-id").nodeValue
-
-      if (hiddentInputValue !== "") {
-        const editedPlayer = {
-          id: parseInt(document.querySelector("player-id")).value,
-          name: document.querySelector("playerName").value,
-          team: document.querySelector("teamName").value
-
+        const name = document.getElementById("playerName").value
+        const teamId = parseInt(document.getElementById("playerTeam").value)
+        const newPlayer = {
+          name: name,
+          teamId: teamId
         }
-
-        editPlayer(editedPlayer).then(() => {
-          eventHub.dispatchEvent(new CustomEvent("entryHasBeenEdited"))
+        const message = new CustomEvent("addPlayerButtonClicked", {
+          detail: {
+            newPlayer: newPlayer
+          }
         })
-
+        savePlayer(newPlayer).then(() => {
+          const message = new CustomEvent("playerCreated")
+          eventHub.dispatchEvent(message)
+        }
+        )
       }
-      else {
-        const playerName = document.querySelector("playerName").value;
-        const teamName = document.querySelector("teamName").value;
-      }
-
-      const newPlayer = {
-        name: playerName,
-        team: teamName
-      }
-
-      savePlayer(newPlayer).then(() => {
-        const message = new CustomEvent("playerCreated")
-        eventHub.dispatchEvent(message)
-      })
-    }
-  })
+    })
+  }
 
   const render = () => {
     contentTarget.innerHTML = `
@@ -56,8 +45,5 @@ export const PlayerFormComponent = () => {
   }
 
   render()
-
-
-
 
 }
