@@ -1,4 +1,4 @@
-import { usePlayer, savePlayer } from "../providers/PlayerProvider.js"
+import { usePlayer, savePlayer, editPlayer } from "../providers/PlayerProvider.js"
 
 const contentTarget = document.querySelector(".playerFormContainer")
 const eventHub = document.querySelector(".container")
@@ -9,25 +9,60 @@ const eventHub = document.querySelector(".container")
 
 export const PlayerFormComponent = () => {
 
+  eventHub.addEventListener("editButtonClicked", event => {
 
-  eventHub.addEventListener("click", (evt) => {
+    const playerToBeEdited = event.detail.playerId
+
+    const allPlayersArray = usePlayer()
+
+    const theFoundPlayer = allPlayersArray.find(
+      (currentPlayerObject) => {
+        return currentPlayerObject.id === parseInt(playerToBeEdited, 10)
+      }
+
+    )
+    document.querySelector("#playerName").value = theFoundPlayer.playerName
+
+
+
+  })
+
+
+
+  eventHub.addEventListener("click", evt => {
     debugger
-    if (evt.target.id === "addPlayerBtn") {
+    if (evt.target.id === "savePlayerBtn") {
+      const hiddenInputValue = document.querySelector("#player-id").value
+
+      if (hiddenInputValue !== "") {
+        const editedPlayer = {
+          id: parseInt(document.querySelector("#note-id").value, 10),
+          playerName: document.querySelector("#playerName").value
 
 
-      // const teamId = parseInt(document.getElementById("playerTeam").value)
-      const newPlayer = {
-        name: document.getElementById("playerName").value
-        // teamId: teamId
+        }
+
+        editPlayer(editedPlayer).then(() => {
+          eventHub.dispatchEvent(new CustomEvent("playerHasBeenEdited"))
+        })
+
+      } else {
+        const name = document.querySelector("#playerName").value;
+        const newPlayer = {
+          playerName: name
+
+
+        }
+
+
+        savePlayer(newPlayer).then(() => {
+          const message = new CustomEvent("playerCreated")
+          eventHub.dispatchEvent(message)
+        })
       }
-
-      savePlayer(newPlayer).then(() => {
-        const message = new CustomEvent("playerCreated")
-        eventHub.dispatchEvent(message)
-      }
-      )
     }
   })
+
 
 
   const render = () => {
@@ -38,8 +73,10 @@ export const PlayerFormComponent = () => {
       <fieldset>
         <label>Player Name</label>
         <input type="text" id="playerName"/>
+        
       <fieldset>
-      <button id="addPlayerBtn">Add Player</button>`
+      <button id="savePlayerBtn">Add Player</button>
+    </form>`
   }
 
   render()
