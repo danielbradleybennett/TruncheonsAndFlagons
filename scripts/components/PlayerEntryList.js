@@ -36,15 +36,22 @@ export const PlayerListComponent = () => {
         }
       )
     }
+    const renderNotesAgain = () => {
+      const allPlayers = usePlayer()
+      render(allPlayers)
+    }
+
+    eventHub.addEventListener("playerCreated", event => {
+      if (document.querySelector(".playerDetail").innerHTML !== "") { renderNotesAgain() }
+
+    })
 
   })
 
-  const renderPlayersAgain = () => {
-    const AllPlayers = usePlayer()
-    render(AllPlayers)
-  }
 
-  const redner = (playerCollection) => {
+
+
+  const render = (playerCollection) => {
     contentTarget.innerHTML = playerCollection.map(
       (playerObject) => {
         return `
@@ -61,6 +68,7 @@ export const PlayerListComponent = () => {
 
     ).join("")
   }
+
 
 
 }
