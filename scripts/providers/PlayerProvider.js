@@ -26,3 +26,21 @@ export const getPlayer = () => {
 
 
 }
+
+export const deletePlayer = playerId => {
+  return fetch(`http://localhost:8088/players/${playerId}`, {
+    method: "DELETE"
+  })
+    .then(getPlayer)
+}
+
+export const editPlayer = (playerObject) => {
+  return fetch(`http://localhost:8088/players/${playerObject.id}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(noteObject)
+  })
+    .then(getPlayer)
+}

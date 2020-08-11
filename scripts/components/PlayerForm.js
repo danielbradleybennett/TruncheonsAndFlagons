@@ -1,4 +1,4 @@
-import { usePlayer, savePlayer } from "../providers/PlayerProvider.js"
+import { usePlayer, savePlayer, editPlayer } from "../providers/PlayerProvider.js"
 
 const contentTarget = document.querySelector(".playerFormContainer")
 const eventHub = document.querySelector(".container")
@@ -9,40 +9,61 @@ const eventHub = document.querySelector(".container")
 
 export const PlayerFormComponent = () => {
 
-  eventHub.addEventListener("click", clickEvent => {
+  eventHub.addEventListener("editButtonClicked", event => {
 
-    if (clickEvent.target.id === "savePlayer") {
-      const hiddentInputValue = document.querySelector("#player-id").nodeValue
+    const playerToBeEdited = event.detail.playerId
 
-      if (hiddentInputValue !== "") {
+    const allPlayersArray = usePlayer()
+
+    const theFoundPlayer = allPlayersArray.find(
+      (currentPlayerObject) => {
+        return currentPlayerObject.id === parseInt(playerToBeEdited, 10)
+      }
+
+    )
+    document.querySelector("#playerName").value = theFoundPlayer.playerName
+
+
+
+  })
+
+
+
+  eventHub.addEventListener("click", evt => {
+    debugger
+    if (evt.target.id === "savePlayerBtn") {
+      const hiddenInputValue = document.querySelector("#player-id").value
+
+      if (hiddenInputValue !== "") {
         const editedPlayer = {
-          id: parseInt(document.querySelector("player-id")).value,
-          name: document.querySelector("playerName").value,
-          team: document.querySelector("teamName").value
+          id: parseInt(document.querySelector("#note-id").value, 10),
+          playerName: document.querySelector("#playerName").value
+
 
         }
 
         editPlayer(editedPlayer).then(() => {
-          eventHub.dispatchEvent(new CustomEvent("entryHasBeenEdited"))
+          eventHub.dispatchEvent(new CustomEvent("playerHasBeenEdited"))
         })
 
-      }
-      else {
-        const playerName = document.querySelector("playerName").value;
-        const teamName = document.querySelector("teamName").value;
-      }
+      } else {
+        const name = document.querySelector("#playerName").value;
+        const newPlayer = {
+          playerName: name
 
-      const newPlayer = {
-        name: playerName,
-        team: teamName
-      }
 
-      savePlayer(newPlayer).then(() => {
-        const message = new CustomEvent("playerCreated")
-        eventHub.dispatchEvent(message)
-      })
+        }
+
+
+        savePlayer(newPlayer).then(() => {
+          const message = new CustomEvent("playerCreated")
+          eventHub.dispatchEvent(message)
+        })
+      }
     }
   })
+
+
 
   const render = () => {
     contentTarget.innerHTML = `
@@ -52,12 +73,12 @@ export const PlayerFormComponent = () => {
       <fieldset>
         <label>Player Name</label>
         <input type="text" id="playerName"/>
-      <fieldset>`
+        
+      <fieldset>
+      <button id="savePlayerBtn">Add Player</button>
+    </form>`
   }
 
   render()
-
-
-
 
 }
