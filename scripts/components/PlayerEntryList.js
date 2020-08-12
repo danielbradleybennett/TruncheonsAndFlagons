@@ -5,6 +5,8 @@ const eventHub = document.querySelector(".container")
 
 
 export const PlayerListComponent = () => {
+  const playerCollection = usePlayer();
+
 
   eventHub.addEventListener("playerHasBeenEdited", event => {
     const updatedPlayer = usePlayer()
@@ -52,6 +54,7 @@ export const PlayerListComponent = () => {
 
 
   const render = (playerCollection) => {
+
     contentTarget.innerHTML = playerCollection.map(
       (playerObject) => {
         return `
@@ -68,6 +71,8 @@ export const PlayerListComponent = () => {
 
     ).join("")
   }
+
+  render(playerCollection())
 
 
 
