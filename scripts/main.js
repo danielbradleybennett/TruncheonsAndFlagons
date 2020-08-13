@@ -1,6 +1,6 @@
-import { PlayerFormComponent } from './components/PlayerForm.js'
-import { getPlayer } from './providers/PlayerProvider.js'
-import { PlayerListComponent } from './components/PlayerEntryList.js'
+import { PlayerFormComponent } from './components/Player/PlayerForm.js'
+import { getPlayer } from './components/Player/PlayerProvider.js'
+import { PlayerListComponent } from './components/Player/PlayerEntryList.js'
 
 
 

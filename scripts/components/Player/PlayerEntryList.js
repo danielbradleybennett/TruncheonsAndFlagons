@@ -1,4 +1,5 @@
-import { usePlayer, deletePlayer } from "../providers/PlayerProvider.js"
+import { usePlayer, deletePlayer } from "./PlayerProvider.js"
+import PlayerComponent from "../Player/Player.js"
 
 const contentTarget = document.querySelector(".playerDetail")
 const eventHub = document.querySelector(".container")
@@ -53,27 +54,17 @@ export const PlayerListComponent = () => {
 
 
 
-  const render = (playerCollection) => {
+  let render = (playerCollection) => {
 
-    contentTarget.innerHTML = playerCollection.map(
-      (playerObject) => {
-        return `
-        <div class="player_card">
-          <div>Name: ${playerObject.playerName}<div>
+    contentTarget.innerHTML = `${playerCollection.map(
+      (currentPlayer) => { return PlayerComponent(currentPlayer) }).join("")}`
 
-          <button id="deletePlayer--${playerObject.id}">Delete</button>
-          <button id="editPlayer--${playerObject.id}">Edit</button>
-        
-        </div>
-        <br>
-        `
-      }
 
-    ).join("")
+
   }
 
-  render(playerCollection())
 
-
-
+  render(playerCollection)
 }
+
+

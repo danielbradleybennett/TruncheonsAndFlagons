@@ -1,4 +1,4 @@
-import { usePlayer, savePlayer, editPlayer } from "../providers/PlayerProvider.js"
+import { usePlayer, savePlayer, editPlayer } from "./PlayerProvider.js"
 
 const contentTarget = document.querySelector(".playerFormContainer")
 const eventHub = document.querySelector(".container")
