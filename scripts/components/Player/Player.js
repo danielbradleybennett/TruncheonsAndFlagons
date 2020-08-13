@@ -2,10 +2,10 @@ const PlayerComponent = (player) => {
 
   return `
   <div class="player_card">
-  <div>Name: ${playerObject.playerName}<div>
+  <div>Name: ${player.playerName}<div>
 
-  <button id="deletePlayer--${playerObject.id}">Delete</button>
-  <button id="editPlayer--${playerObject.id}">Edit</button>
+  <button id="deletePlayer--${player.id}">Delete</button>
+  <button id="editPlayer--${player.id}">Edit</button>
 
 </div>
 <br>
