@@ -30,19 +30,19 @@ export const PlayerListComponent = () => {
     }
     if (evt.target.id.startsWith("deletePlayer--")) {
       console.log("do you hear me")
-      const [prefix, id] = evt.target.id.split("--")
-
-      deletePlayer(id).then(
+      const [prefix, playerId] = evt.target.id.split("--")
+      debugger
+      deletePlayer(playerId).then(
         () => {
           const NewPlayer = usePlayer()
           render(NewPlayer)
         }
       )
     }
-    const renderNotesAgain = () => {
-      const allPlayers = usePlayer()
-      render(allPlayers)
-    }
+    // const renderNotesAgain = () => {
+    //   const allPlayers = usePlayer()
+    //   render(allPlayers)
+    // }
 
     eventHub.addEventListener("playerCreated", event => {
       if (document.querySelector(".playerDetail").innerHTML !== "") { renderNotesAgain() }

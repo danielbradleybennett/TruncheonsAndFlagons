@@ -30,7 +30,7 @@ export const PlayerFormComponent = () => {
 
 
   eventHub.addEventListener("click", evt => {
-    debugger
+
     if (evt.target.id === "savePlayerBtn") {
       const hiddenInputValue = document.querySelector("#player-id").value
 
