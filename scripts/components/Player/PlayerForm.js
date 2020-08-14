@@ -1,4 +1,4 @@
-import { usePlayer, savePlayer, editPlayer } from "../providers/PlayerProvider.js"
+import { usePlayer, savePlayer, editPlayer } from "./PlayerProvider.js"
 
 const contentTarget = document.querySelector(".playerFormContainer")
 const eventHub = document.querySelector(".container")
@@ -30,7 +30,7 @@ export const PlayerFormComponent = () => {
 
 
   eventHub.addEventListener("click", evt => {
-    debugger
+
     if (evt.target.id === "savePlayerBtn") {
       const hiddenInputValue = document.querySelector("#player-id").value
 

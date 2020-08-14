@@ -21,13 +21,14 @@ export const getPlayer = () => {
   return fetch("http://localhost:8088/players")
     .then(response => response.json())
     .then(parsedPlayer => {
+
       player = parsedPlayer.slice()
     })
 
 
 }
 
-export const deletePlayer = playerId => {
+export const deletePlayer = (playerId) => {
   return fetch(`http://localhost:8088/players/${playerId}`, {
     method: "DELETE"
   })

@@ -1,10 +1,13 @@
-import { usePlayer, deletePlayer } from "../providers/PlayerProvider.js"
+import { usePlayer, deletePlayer } from "./PlayerProvider.js"
+import PlayerComponent from "../Player/Player.js"
 
 const contentTarget = document.querySelector(".playerDetail")
 const eventHub = document.querySelector(".container")
 
 
 export const PlayerListComponent = () => {
+  const playerCollection = usePlayer();
+
 
   eventHub.addEventListener("playerHasBeenEdited", event => {
     const updatedPlayer = usePlayer()
@@ -27,40 +30,41 @@ export const PlayerListComponent = () => {
     }
     if (evt.target.id.startsWith("deletePlayer--")) {
       console.log("do you hear me")
-      const [prefix, id] = evt.target.id.split("--")
-
-      deletePlayer(id).then(
+      const [prefix, playerId] = evt.target.id.split("--")
+      debugger
+      deletePlayer(playerId).then(
         () => {
           const NewPlayer = usePlayer()
           render(NewPlayer)
         }
       )
     }
+    // const renderNotesAgain = () => {
+    //   const allPlayers = usePlayer()
+    //   render(allPlayers)
+    // }
+
+    eventHub.addEventListener("playerCreated", event => {
+      if (document.querySelector(".playerDetail").innerHTML !== "") { renderNotesAgain() }
+
+    })
 
   })
 
-  const renderPlayersAgain = () => {
-    const AllPlayers = usePlayer()
-    render(AllPlayers)
-  }
 
-  const redner = (playerCollection) => {
-    contentTarget.innerHTML = playerCollection.map(
-      (playerObject) => {
-        return `
-        <div class="player_card">
-          <div>Name: ${playerObject.playerName}<div>
 
-          <button id="deletePlayer--${playerObject.id}">Delete</button>
-          <button id="editPlayer--${playerObject.id}">Edit</button>
-        
-        </div>
-        <br>
-        `
-      }
 
-    ).join("")
+  let render = (playerCollection) => {
+
+    contentTarget.innerHTML = `${playerCollection.map(
+      (currentPlayer) => { return PlayerComponent(currentPlayer) }).join("")}`
+
+
+
   }
 
 
+  render(playerCollection)
 }
+
+
